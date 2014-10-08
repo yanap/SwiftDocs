@@ -9,49 +9,56 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    let myButton: UIButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Labelを作成
-        let myLabel: UILabel = UILabel(frame: CGRectMake(0, 0, 200, 50))
+        // サイズ
+        myButton.frame = CGRectMake(0, 0, 200, 40)
         
-        // 背景を橙色にする
-        myLabel.backgroundColor = UIColor.orangeColor()
+        // 背景色を設定
+        myButton.backgroundColor = UIColor.redColor()
         
         // 枠を丸くする
-        myLabel.layer.masksToBounds = true
+        myButton.layer.masksToBounds = true
+        
+        // タイトルを設定
+        myButton.setTitle("ボタン(通常)", forState: UIControlState.Normal)
+        myButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        
+        // タイトルを設定
+        myButton.setTitle("ボタン(押された時)", forState: UIControlState.Highlighted)
+        myButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Highlighted)
         
         // コーナーの半径
-        myLabel.layer.cornerRadius = 20.0
+        myButton.layer.cornerRadius = 20.0
         
-        // Labelに文字を代入
-        myLabel.text = "Hello Swift!!"
+        // ボタンの位置を指定
+        myButton.layer.position = CGPoint(x: self.view.frame.width/2, y: 200)
         
-        // 文字の色を白にする
-        myLabel.textColor = UIColor.whiteColor()
+        // タグを設定
+        myButton.tag = 1
         
-        // 文字の影の色
-        myLabel.shadowColor = UIColor.grayColor()
+        // イベントを追加
+        myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
         
-        // Textを中央寄せにする
-        myLabel.textAlignment = NSTextAlignment.Center
-        
-        // 配置する座標を設定する
-        myLabel.layer.position = CGPoint(x: self.view.bounds.width/2, y: 200)
-        
-        // Viewの背景色を青にする
-        self.view.backgroundColor = UIColor.cyanColor()
-        
-        // ViewにLabelを追加
-        self.view.addSubview(myLabel)
+        // UIボタンをViewに追加
+        self.view.addSubview(myButton)
         
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
+    /* ボタンイベント */
+    func onClickMyButton(sender: UIButton){
+        println("OnClickMyButton:")
+        println("sender.CurrentTitle: \(sender.currentTitle)")
+        println("sender.tag: \(sender.tag)")
+    }
 
 }
 
