@@ -10,42 +10,51 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let myButton: UIButton = UIButton()
-
+    // ボタンを定義
+    let myInfoDarkButton: UIButton = UIButton.buttonWithType(UIButtonType.InfoDark) as UIButton
+    let myInfoLightButton: UIButton = UIButton.buttonWithType(UIButtonType.InfoLight) as UIButton
+    let myAddButton: UIButton = UIButton.buttonWithType(UIButtonType.ContactAdd) as UIButton
+    let myDetailButton: UIButton = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as UIButton
+    let mySystemButton: UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // サイズ
-        myButton.frame = CGRectMake(0, 0, 200, 40)
+        // ボタンの位置を指定する
+        myInfoDarkButton.layer.position = CGPoint(x: self.view.frame.width/2, y:50)
+        myInfoLightButton.layer.position = CGPoint(x: self.view.frame.width/2, y:100)
+        myAddButton.layer.position = CGPoint(x: self.view.frame.width/2, y:150)
+        myDetailButton.layer.position = CGPoint(x: self.view.frame.width/2, y:200)
         
-        // 背景色を設定
-        myButton.backgroundColor = UIColor.redColor()
+        // mySystemButtonに枠を追加する
+        mySystemButton.frame = CGRectMake(0, 0, 200, 50)
         
-        // 枠を丸くする
-        myButton.layer.masksToBounds = true
+        // mySystemButtonの位置を設定する
+        mySystemButton.layer.position = CGPoint(x: self.view.frame.width/2, y:250)
         
-        // タイトルを設定
-        myButton.setTitle("ボタン(通常)", forState: UIControlState.Normal)
-        myButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        // mySystemButtonにタイトルを設定する
+        mySystemButton.setTitle("mySystemButton", forState: UIControlState.Normal)
         
-        // タイトルを設定
-        myButton.setTitle("ボタン(押された時)", forState: UIControlState.Highlighted)
-        myButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Highlighted)
+        // タグを設定する
+        myInfoDarkButton.tag = 1
+        myInfoLightButton.tag = 2
+        myAddButton.tag = 3
+        myDetailButton.tag = 4
+        mySystemButton.tag = 5
         
-        // コーナーの半径
-        myButton.layer.cornerRadius = 20.0
-        
-        // ボタンの位置を指定
-        myButton.layer.position = CGPoint(x: self.view.frame.width/2, y: 200)
-        
-        // タグを設定
-        myButton.tag = 1
-        
-        // イベントを追加
-        myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
-        
-        // UIボタンをViewに追加
-        self.view.addSubview(myButton)
+        // イベントを追加する
+        myInfoDarkButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
+        myInfoLightButton.addTarget(self, action: "onClickMyButton", forControlEvents: .TouchUpInside)
+        myAddButton.addTarget(self, action: "onClickMyButton", forControlEvents: .TouchUpInside)
+        myDetailButton.addTarget(self, action: "onClickMyButton", forControlEvents: .TouchUpInside)
+        mySystemButton.addTarget(self, action: "onClickMyButton", forControlEvents: .TouchUpInside)
+    
+        // ボタンをViewに追加
+        self.view.addSubview(myInfoDarkButton)
+        self.view.addSubview(myInfoLightButton)
+        self.view.addSubview(myAddButton)
+        self.view.addSubview(myDetailButton)
+        self.view.addSubview(mySystemButton)
         
     }
 
