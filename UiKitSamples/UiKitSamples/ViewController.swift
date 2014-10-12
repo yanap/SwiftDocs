@@ -8,54 +8,28 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    
-    // ボタンを定義.
-    let myInfoDarkButton: UIButton = UIButton.buttonWithType(UIButtonType.InfoDark) as UIButton
-    let myInfoLightButton: UIButton = UIButton.buttonWithType(UIButtonType.InfoLight) as UIButton
-    let myAddButton: UIButton = UIButton.buttonWithType(UIButtonType.ContactAdd) as UIButton
-    let myDetailButton: UIButton = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as UIButton
-    let mySystemButton: UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
-    
+class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // ボタンの位置を指定する.
-        myInfoDarkButton.layer.position = CGPoint(x: self.view.frame.width/2, y:50)
-        myInfoLightButton.layer.position = CGPoint(x: self.view.frame.width/2, y:100)
-        myAddButton.layer.position = CGPoint(x: self.view.frame.width/2, y:150)
-        myDetailButton.layer.position = CGPoint(x: self.view.frame.width/2, y:200)
+        // UITextFieldを作成する
+        let myTextField: UITextField = UITextField(frame: CGRectMake(0, 0, 200, 30))
         
-        // mySystemButtonに枠を追加する.
-        mySystemButton.frame = CGRectMake(0, 0, 200, 50)
+        // 表示する文字を代入する
+        myTextField.text = "Hello Swift!!"
         
-        // mySystemButtonの位置を設定する.
-        mySystemButton.layer.position = CGPoint(x: self.view.frame.width/2, y:250)
+        // Delegateを設定する
+        myTextField.delegate = self
         
-        // mySystemButtonにタイトルを設定する.
-        mySystemButton.setTitle("mySystemButton", forState: UIControlState.Normal)
+        // 枠を表示する
+        myTextField.borderStyle = UITextBorderStyle.RoundedRect
         
-        // タグを設定する.
-        myInfoDarkButton.tag = 1
-        myInfoLightButton.tag = 2
-        myAddButton.tag = 3
-        myDetailButton.tag = 4
-        mySystemButton.tag = 5
+        // UITextFieldの表示する位置を設定する
+        myTextField.layer.position = CGPoint(x:self.view.bounds.width/2, y:100)
         
-        // イベントを追加する.
-        myInfoDarkButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
-        myInfoLightButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
-        myAddButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
-        myDetailButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
-        mySystemButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
-        
-        // ボタンをViewに追加する.
-        self.view.addSubview(myInfoDarkButton)
-        self.view.addSubview(myInfoLightButton)
-        self.view.addSubview(myAddButton)
-        self.view.addSubview(myDetailButton)
-        self.view.addSubview(mySystemButton)
+        // Viewに追加する
+        self.view.addSubview(myTextField)
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,13 +37,28 @@ class ViewController: UIViewController {
     }
     
     /*
-    ボタンイベント
+    UITextFieldが編集された直後に呼ばれる
     */
-    func onClickMyButton(sender: UIButton){
-        println("onClickMyButton:")
-        println("sender.currentTitile: \(sender.currentTitle)")
-        println("sender.tag: \(sender.tag)")
-        
-        
+    func textFieldDidBeginEditing(textField: UITextField) {
+        println("textFieldDidBeginEditing:" + textField.text)
     }
+    
+    /*
+    UITextFieldが編集終了する直前に呼ばれる
+    */
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        println("textFieldShouldEndEditing:" + textField.text)
+        
+        return true
+    }
+    
+    /*
+    改行ボタンが押された際に呼ばれる
+    */
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
+    }
+    
 }
