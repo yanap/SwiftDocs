@@ -33,15 +33,16 @@ class ViewController: UIViewController {
         myNotificationButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
         myNotificationButton.tag = 1
         
-        // 時間をおいてNotificationを発火するボタンを作成する
+        // 時間をおいてNotificationを発火するボタンを作成する.
         myNotificationFireButton = UIButton(frame: CGRectMake(0,0,200,80))
         myNotificationFireButton.backgroundColor = UIColor.blueColor()
         myNotificationFireButton.layer.masksToBounds = true
         myNotificationFireButton.setTitle("Notification(Fire)", forState: .Normal)
         myNotificationFireButton.layer.cornerRadius = 20.0
         myNotificationFireButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:400)
-        myNotificationFireButton.addTarget(self, action: "onClickMyButton", forControlEvents: .TouchUpInside)
+        myNotificationFireButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
         myNotificationFireButton.tag = 2
+        
         
         // ViewにButtonを追加する
         view.addSubview(myNotificationButton)
