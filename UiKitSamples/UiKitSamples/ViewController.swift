@@ -10,57 +10,97 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var myNotificationButton: UIButton!
+    var myNotificationFireButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // 小さめのフォントの文字列をラベルに表示する
-        let mySmallLabel: UILabel = UILabel()
-        mySmallLabel.font = UIFont.systemFontOfSize(UIFont.smallSystemFontSize())
-        mySmallLabel.text = "小さめのフォントサイズ"
-        mySmallLabel.frame = CGRect(x: 25, y: 0, width: 300, height: 150)
-        self.view.addSubview(mySmallLabel)
         
-        // システムの標準フォントサイズの文字列をラベルに表示する
-        let myNormalLabel: UILabel = UILabel()
-        myNormalLabel.font = UIFont.systemFontOfSize(UIFont.systemFontSize())
-        myNormalLabel.text = "UIButtonのフォントサイズ"
-        myNormalLabel.frame = CGRect(x: 25, y:30, width: 200, height: 150)
-        self.view.addSubview(myNormalLabel)
+        // アラート表示の許可をもらう
+        UIApplication.sharedApplication().registerUserNotificationSettings(
+            UIUserNotificationSettings(
+                forTypes: UIUserNotificationType.Sound | UIUserNotificationType.Alert,
+                categories: nil)
+        )
         
-        // UIButton用のフォントサイズの文字列をラベルに表示する
-        let myButtonLabel: UILabel = UILabel()
-        myButtonLabel.font = UIFont.systemFontOfSize(UIFont.buttonFontSize())
-        myButtonLabel.text = "UIButtonのフォントサイズ"
-        myButtonLabel.frame = CGRect(x: 25, y: 60, width: 300, height: 150)
+        // すぐにNotificationを発火するボタンを設置する
+        myNotificationButton = UIButton(frame: CGRectMake(0,0,200,80))
+        myNotificationButton.backgroundColor = UIColor.orangeColor()
+        myNotificationButton.layer.masksToBounds = true
+        myNotificationButton.setTitle("Notification", forState: .Normal)
+        myNotificationButton.layer.cornerRadius = 20.0
+        myNotificationButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:200)
+        myNotificationButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
+        myNotificationButton.tag = 1
         
-        // カスタムしたフォントサイズ(20)の文字列をラベルに表示する
-        let myCustomLabel: UILabel = UILabel()
-        myCustomLabel.font = UIFont.systemFontOfSize(CGFloat(20))
-        myCustomLabel.text = "ポイント20のフォントサイズ"
-        myCustomLabel.frame = CGRect(x: 25, y: 90, width: 300, height: 150)
-        self.view.addSubview(myCustomLabel)
+        // 時間をおいてNotificationを発火するボタンを作成する.
+        myNotificationFireButton = UIButton(frame: CGRectMake(0,0,200,80))
+        myNotificationFireButton.backgroundColor = UIColor.blueColor()
+        myNotificationFireButton.layer.masksToBounds = true
+        myNotificationFireButton.setTitle("Notification(Fire)", forState: .Normal)
+        myNotificationFireButton.layer.cornerRadius = 20.0
+        myNotificationFireButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:400)
+        myNotificationFireButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
+        myNotificationFireButton.tag = 2
         
-        // Italic System Fontの文字列をラベルに表示する
-        let myItalicLabel: UILabel = UILabel()
-        myItalicLabel.font = UIFont.italicSystemFontOfSize(UIFont.labelFontSize())
-        myItalicLabel.text = "Italicフォント"
-        myItalicLabel.frame = CGRect(x: 25, y: 120, width: 300, height: 150)
-        self.view.addSubview(myItalicLabel)
         
-        // Boldの文字列をラベルに表示する
-        let myBoldLabel: UILabel = UILabel()
-        myBoldLabel.font = UIFont.boldSystemFontOfSize(UIFont.labelFontSize())
-        myBoldLabel.text = "Boldフォント"
-        myBoldLabel.frame = CGRect(x: 25, y: 150, width: 300, height: 150)
-        self.view.addSubview(myBoldLabel)
+        // ViewにButtonを追加する
+        view.addSubview(myNotificationButton)
+        view.addSubview(myNotificationFireButton)
         
-        // Arialの文字列をラベルに表示する
-        let myArialLabel: UILabel = UILabel()
-        myArialLabel.font = UIFont(name:"ArialHebrew", size:UIFont.labelFontSize())
-        myArialLabel.text = "ArialHebrew"
-        myArialLabel.frame = CGRect(x: 25, y: 180, width: 300, height: 150)
-        self.view.addSubview(myArialLabel)
+    }
+    
+    /*
+    ボタンイベント
+    */
+    func onClickMyButton(sender: UIButton){
+        if sender.tag == 1 {
+            showNotification()
+        } else if sender.tag == 2 {
+            showNotificationFire()
+        }
+    }
+    
+    /*
+    Show Notification
+    */
+    private func showNotification(){
         
+        // Notificationの生成する.
+        let myNotification: UILocalNotification = UILocalNotification()
+        
+        // メッセージを代入する.
+        myNotification.alertBody = "TEST"
+        
+        // Timezoneを設定をする.
+        myNotification.timeZone = NSTimeZone.defaultTimeZone()
+        
+        // Notificationを表示する.
+        UIApplication.sharedApplication().scheduleLocalNotification(myNotification)
+    }
+    
+    /*
+    Show Notification(10 sec後に発火)
+    */
+    private func showNotificationFire(){
+        
+        // Notificationの生成する.
+        let myNotification: UILocalNotification = UILocalNotification()
+        
+        // メッセージを代入する.
+        myNotification.alertBody = "TEST(Fire)"
+        
+        // 再生サウンドを設定する.
+        myNotification.soundName = UILocalNotificationDefaultSoundName
+        
+        // Timezoneを設定する.
+        myNotification.timeZone = NSTimeZone.defaultTimeZone()
+        
+        // 10秒後に設定する.
+        myNotification.fireDate = NSDate(timeIntervalSinceNow: 10)
+        
+        // Notificationを表示する.
+        UIApplication.sharedApplication().scheduleLocalNotification(myNotification)
     }
     
     override func didReceiveMemoryWarning() {
